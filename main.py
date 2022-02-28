@@ -3,6 +3,7 @@ import speech_recognition as s_r
 import keyboard  # using module keyboard
 import pandas as pd
 
+#google
 #print(s_r.__version__)
 s_r.Microphone.list_microphone_names()
 print(s_r.Microphone.list_microphone_names()) #print all the microphones connected to your machine
@@ -10,10 +11,6 @@ my_mic = s_r.Microphone(device_index=1)
 
 r = s_r.Recognizer()
 
-#with my_mic as source:
-#    print("Say now!!!!")
-#    audio = r.listen(source)
-#print(r.recognize_google(audio)) #to print voice into text
 
 i = 0
 
