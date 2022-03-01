@@ -20,13 +20,23 @@ Manuscript = ["Hello my name Karl and I like nuts", "The quick brown dog jumped 
 
 while True:
     if keyboard.is_pressed('q'):
-        with my_mic as source:
-            print("Please talk into the microphone")
-            audio = r.listen(source)
-            Transcription = r.recognize_google(audio)  # to print voice into text
-            print(Transcription)
-            Transcript.append(Transcription)
-            dict = {'Transcript': Transcript}
-            df = pd.DataFrame(dict)
-            i += 1
-            df.to_csv('Transcriptions.csv')
+        try:
+            with my_mic as source:
+                r.adjust_for_ambient_noise(my_mic, duration=0.2)
+                print("Please talk into the microphone")
+                audio = r.listen(source)
+                Transcription = r.recognize_google(audio)  # to print voice into text
+                print(Transcription)
+                Transcript.append(Transcription)
+                dict = {'Transcript': Transcript}
+                df = pd.DataFrame(dict)
+                i += 1
+                df.to_csv('Transcriptions.csv')
+        except s_r.UnknownValueError():
+
+            r = s_r.Recognizer()
+            continue
+
+
+
+
