@@ -6,7 +6,7 @@ import pandas as pd
 #google
 #print(s_r.__version__)
 s_r.Microphone.list_microphone_names()
-print(s_r.Microphone.list_microphone_names()) #print all the microphones connected to your machine
+#print(s_r.Microphone.list_microphone_names()) #print all the microphones connected to your machine
 my_mic = s_r.Microphone(device_index=1)
 
 r = s_r.Recognizer()
@@ -32,11 +32,7 @@ while True:
                 df = pd.DataFrame(dict)
                 i += 1
                 df.to_csv('Transcriptions.csv')
-        except s_r.UnknownValueError():
+        except r.UnknownValueError():
 
             r = s_r.Recognizer()
             continue
-
-
-
-
