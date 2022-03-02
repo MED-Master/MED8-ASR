@@ -32,7 +32,7 @@ while True:
                 df = pd.DataFrame(dict)
                 i += 1
                 df.to_csv('Transcriptions.csv')
-        except r.UnknownValueError():
-
+        except:
+            print("I did not catch that, can you please say it again")
             r = s_r.Recognizer()
             continue
