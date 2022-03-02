@@ -16,7 +16,8 @@ r = s_r.Recognizer()
 
 i = 0
 WIT_AI_KEY = '632718101326770'
-Transcript = []
+Transcript_google = []
+Transcript_sphinx = []
 Manuscript = ["Hello my name Karl and I like nuts", "The quick brown dog jumped over the lazy fox",
               'The purple buglar alarm']
 
@@ -27,10 +28,12 @@ while True:
                 r.adjust_for_ambient_noise(my_mic, duration=0.2)
                 print("Please talk into the microphone")
                 audio = r.listen(source)
-                Transcription = r.recognize_sphinx(audio)  # to print voice into text
-                print(Transcription)
-                Transcript.append(Transcription)
-                dict = {'Transcript': Transcript}
+                Transcription_google = r.recognize_google(audio)  # to print voice into text
+                Transcription_sphinx = r.recognize_sphinx(audio)  # to print voice into text
+                print('Google: '+Transcription_google+'\n' + 'sphinx: ' + Transcription_sphinx)
+                Transcript_google.append(Transcription_google)
+                Transcript_sphinx.append(Transcription_sphinx)
+                dict = {'google': Transcript_google, 'sphinx': Transcript_sphinx}
                 df = pd.DataFrame(dict)
                 i += 1
                 df.to_csv('Transcriptions.csv')
