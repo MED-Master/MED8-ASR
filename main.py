@@ -11,8 +11,7 @@ s_r.Microphone.list_microphone_names()
 my_mic = s_r.Microphone(device_index=1)
 
 r = s_r.Recognizer()
-#v_r = s_r.Recognizer_instance
-#s_r.Recognizer(vosk.recognizer_instance.recognize_vosk)
+
 
 i = 0
 WIT_AI_KEY = '45VKV53C2GSH4CKFOJSO76SYQ3JD7YTF'
