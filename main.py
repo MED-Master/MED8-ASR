@@ -15,9 +15,10 @@ r = s_r.Recognizer()
 #s_r.Recognizer(vosk.recognizer_instance.recognize_vosk)
 
 i = 0
-WIT_AI_KEY = '632718101326770'
+WIT_AI_KEY = '45VKV53C2GSH4CKFOJSO76SYQ3JD7YTF'
 Transcript_google = []
 Transcript_sphinx = []
+Transcript_wit = []
 Manuscript = ["Hello my name Karl and I like nuts", "The quick brown dog jumped over the lazy fox",
               'The purple buglar alarm']
 
@@ -30,10 +31,12 @@ while True:
                 audio = r.listen(source)
                 Transcription_google = r.recognize_google(audio)  # to print voice into text
                 Transcription_sphinx = r.recognize_sphinx(audio)  # to print voice into text
-                print('Google: '+Transcription_google+'\n' + 'sphinx: ' + Transcription_sphinx)
+                Transcription_wit = r.recognize_wit(audio, key=WIT_AI_KEY)  # to print voice into text
+                print('Google: '+Transcription_google+'\n' + 'sphinx: ' + Transcription_sphinx + '\n' + 'wit: '+ Transcription_wit)
                 Transcript_google.append(Transcription_google)
                 Transcript_sphinx.append(Transcription_sphinx)
-                dict = {'google': Transcript_google, 'sphinx': Transcript_sphinx}
+                Transcript_wit.append(Transcription_wit)
+                dict = {'google': Transcript_google, 'sphinx': Transcript_sphinx, 'wit': Transcription_wit}
                 df = pd.DataFrame(dict)
                 i += 1
                 df.to_csv('Transcriptions.csv')
