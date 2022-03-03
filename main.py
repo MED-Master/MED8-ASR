@@ -2,7 +2,7 @@ import pyaudio
 import speech_recognition as s_r
 import keyboard  # using module keyboard
 import pandas as pd
-import vosk
+
 
 # google
 # print(s_r.__version__)
