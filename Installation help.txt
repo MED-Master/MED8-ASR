@@ -1,0 +1,11 @@
+pip install wit
+pip install imgaug
+pip install pipwin
+You need to install swig manually and add it to an environmental path
+pipwin install pocketsphinx
+pyaudio 
+	download this file:
+		name: PyAudio-0.2.11-cp38-cp38-win_amd64.whl 
+		link: https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
+	Save the file here: C:\Users\*name* 
+	pip install PyAudio-0.2.11-cp38-cp38-win_amd64.whl

@@ -2,6 +2,8 @@ import pyaudio
 import speech_recognition as s_r
 import keyboard  # using module keyboard
 import pandas as pd
+import numpy
+
 
 
 # google
