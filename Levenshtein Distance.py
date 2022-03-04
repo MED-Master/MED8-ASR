@@ -2,7 +2,7 @@ import numpy as np
 import Levenshtein as L #https://rawgit.com/ztane/python-Levenshtein/master/docs/Levenshtein.html
 
 Output = "Hello my name is steffen and i'm testing different A.S.R. models." #ASR output
-Manuscript = "Hello my name is steffen and i'm testing different A.S.R. models." #manuscript
+Manuscript = "Hello my name is steffen and i'm testing differe A.S.R. models." #manuscript
 
 def levenshtein(seq1, seq2):
     size_x = len(seq1) + 1

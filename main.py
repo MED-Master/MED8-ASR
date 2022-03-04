@@ -3,25 +3,36 @@ import speech_recognition as s_r
 import keyboard  # using module keyboard
 import pandas as pd
 import numpy
+import sys
+import Levenshtein as ls #https://rawgit.com/ztane/python-Levenshtein/master/docs/Levenshtein.html
 
-
-
-# google
+#mircophone setup
 # print(s_r.__version__)
 s_r.Microphone.list_microphone_names()
 # print(s_r.Microphone.list_microphone_names()) #print all the microphones connected to your machine
 my_mic = s_r.Microphone(device_index=1)
 
-r = s_r.Recognizer()
+r = s_r.Recognizer() #S_R constructor
 
+WIT_AI_KEY = 'IQAXGNZQWIAZL5VAI7GUT6JK3P3RJ3TZ' #wit API key
 
+#data logging arrays:
 i = 0
-WIT_AI_KEY = '45VKV53C2GSH4CKFOJSO76SYQ3JD7YTF'
+j = 0
+#   google
 Transcript_google = []
+google_l_distance = []
+google_jaro = []
+#   sphinx
 Transcript_sphinx = []
+sphinx_l_distance = []
+sphinx_jaro = []
+#   wit
 Transcript_wit = []
-Manuscript = ["Hello my name Karl and I like nuts", "The quick brown dog jumped over the lazy fox",
-              'The purple buglar alarm']
+wit_l_distance = []
+wit_jaro = []
+#manuscript
+Manuscript = ["Hello my name is Karl and I like nuts."] #, "The quick brown dog jumped over the lazy fox.", 'The purple buglar alarm.'
 
 while True:
     if keyboard.is_pressed('q'):
@@ -37,10 +48,8 @@ while True:
                 Transcript_google.append(Transcription_google)
                 Transcript_sphinx.append(Transcription_sphinx)
                 Transcript_wit.append(Transcription_wit)
-                dict = {'google': Transcript_google, 'sphinx': Transcript_sphinx, 'wit': Transcription_wit}
-                df = pd.DataFrame(dict)
                 i += 1
-                df.to_csv('Transcriptions.csv')
+
         except s_r.UnknownValueError:
             print("I did not catch that, can you please say it again")
             r = s_r.Recognizer()
@@ -49,5 +58,29 @@ while True:
         except s_r.RequestError as e:
             print("Could not request results from API; {0}".format(e))
             continue
+    if keyboard.is_pressed('l'):
+        if len(Manuscript) == len(Transcript_google):
+            for j in range(len(Manuscript)):
+                # Levenshtein distance
+                google_l_distance.append(ls.distance(Manuscript[j], Transcript_google[j]))  #google
+                sphinx_l_distance.append(ls.distance(Manuscript[j], Transcript_sphinx[j]))  #sphinx
+                wit_l_distance.append(ls.distance(Manuscript[j], Transcript_wit[j])) #wit
+                # jaro_winkler
+                google_jaro.append(ls.jaro(Manuscript[j], Transcript_google[j])) #google
+                sphinx_jaro.append(ls.jaro(Manuscript[j], Transcript_sphinx[j])) #sphinx
+                wit_jaro.append(ls.jaro(Manuscript[j], Transcript_wit[j])) #wit
+                j += 1
+            dict = {'Manuscript': Manuscript, 'Google': Transcript_google, 'Sphinx': Transcript_sphinx, 'Wit.ai': Transcript_wit,
+                'Google distance': google_l_distance, 'Google string': google_jaro, 'Sphinx distance': sphinx_l_distance,
+                'Sphinx string': sphinx_jaro, 'Wit.ai distance': wit_l_distance, 'Wit.ai string': wit_jaro}
+        else:
+            dict = {'Google': Transcript_google, 'Sphinx': Transcript_sphinx,
+                'Wit.ai': Transcription_wit}
+        print(wit_jaro)
+        df = pd.DataFrame(dict)
+        df.to_csv('Transcriptions.csv')
+        print("Logging complete")
+        sys.exit() #TODO find a better method to control the logging
+
 
 
