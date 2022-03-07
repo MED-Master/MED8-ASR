@@ -19,6 +19,7 @@ WIT_AI_KEY = 'IQAXGNZQWIAZL5VAI7GUT6JK3P3RJ3TZ' #wit API key
 #data logging arrays:
 i = 0
 j = 0
+log_control = False
 #   google
 Transcript_google = []
 google_l_distance = []
@@ -49,6 +50,7 @@ while True:
                 Transcript_sphinx.append(Transcription_sphinx)
                 Transcript_wit.append(Transcription_wit)
                 i += 1
+                log_control = True
 
         except s_r.UnknownValueError:
             print("I did not catch that, can you please say it again")
@@ -58,29 +60,31 @@ while True:
         except s_r.RequestError as e:
             print("Could not request results from API; {0}".format(e))
             continue
-    if keyboard.is_pressed('l'):
-        if len(Manuscript) == len(Transcript_google):
-            for j in range(len(Manuscript)):
-                # Levenshtein distance
-                google_l_distance.append(ls.distance(Manuscript[j], Transcript_google[j]))  #google
-                sphinx_l_distance.append(ls.distance(Manuscript[j], Transcript_sphinx[j]))  #sphinx
-                wit_l_distance.append(ls.distance(Manuscript[j], Transcript_wit[j])) #wit
-                # jaro_winkler
-                google_jaro.append(ls.jaro(Manuscript[j], Transcript_google[j])) #google
-                sphinx_jaro.append(ls.jaro(Manuscript[j], Transcript_sphinx[j])) #sphinx
-                wit_jaro.append(ls.jaro(Manuscript[j], Transcript_wit[j])) #wit
-                j += 1
-            dict = {'Manuscript': Manuscript, 'Google': Transcript_google, 'Sphinx': Transcript_sphinx, 'Wit.ai': Transcript_wit,
-                'Google distance': google_l_distance, 'Google string': google_jaro, 'Sphinx distance': sphinx_l_distance,
-                'Sphinx string': sphinx_jaro, 'Wit.ai distance': wit_l_distance, 'Wit.ai string': wit_jaro}
-        else:
-            dict = {'Google': Transcript_google, 'Sphinx': Transcript_sphinx,
-                'Wit.ai': Transcription_wit}
-        print(wit_jaro)
-        df = pd.DataFrame(dict)
-        df.to_csv('Transcriptions.csv')
-        print("Logging complete")
-        sys.exit() #TODO find a better method to control the logging
+    try:
+        if keyboard.is_pressed('l'):
+            if len(Manuscript) == len(Transcript_google):
+                for j in range(len(Manuscript)):
+                    # Levenshtein distance
+                    google_l_distance.append(ls.distance(Manuscript[j], Transcript_google[j]))  #google
+                    sphinx_l_distance.append(ls.distance(Manuscript[j], Transcript_sphinx[j]))  #sphinx
+                    wit_l_distance.append(ls.distance(Manuscript[j], Transcript_wit[j])) #wit
+                    # jaro_winkler
+                    google_jaro.append(ls.jaro(Manuscript[j], Transcript_google[j])) #google
+                    sphinx_jaro.append(ls.jaro(Manuscript[j], Transcript_sphinx[j])) #sphinx
+                    wit_jaro.append(ls.jaro(Manuscript[j], Transcript_wit[j])) #wit
+                    j += 1
+                dict = {'Manuscript': Manuscript, 'Google': Transcript_google, 'Sphinx': Transcript_sphinx, 'Wit.ai': Transcript_wit,
+                    'Google distance': google_l_distance, 'Google string': google_jaro, 'Sphinx distance': sphinx_l_distance,
+                    'Sphinx string': sphinx_jaro, 'Wit.ai distance': wit_l_distance, 'Wit.ai string': wit_jaro}
+            else:
+                dict = {'Google': Transcript_google, 'Sphinx': Transcript_sphinx,
+                    'Wit.ai': Transcription_wit}
 
-
-
+            if log_control:
+                print(wit_jaro)
+                df = pd.DataFrame(dict)
+                df.to_csv('Transcriptions.csv')
+                print("Logging complete")
+                log_control = False
+    except Exception as e:
+        continue
