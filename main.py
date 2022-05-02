@@ -33,7 +33,7 @@ Transcript_wit = []
 wit_l_distance = []
 wit_jaro = []
 #manuscript
-Manuscript = ["Hello my name is Karl and I like nuts."] #, "The quick brown dog jumped over the lazy fox.", 'The purple buglar alarm.'
+Manuscript = ["Can I please see the door to needle time for last quarter.", "The quick brown dog jumped over the lazy fox.", 'The purple buglar alarm.']
 
 while True:
     if keyboard.is_pressed('q'):
@@ -42,9 +42,9 @@ while True:
                 r.adjust_for_ambient_noise(my_mic, duration=0.2)
                 print("Please talk into the microphone")
                 audio = r.listen(source)
+                Transcription_wit = r.recognize_wit(audio, key=WIT_AI_KEY)  # to print voice into text
                 Transcription_google = r.recognize_google(audio)  # to print voice into text
                 Transcription_sphinx = r.recognize_sphinx(audio)  # to print voice into text
-                Transcription_wit = r.recognize_wit(audio, key=WIT_AI_KEY)  # to print voice into text
                 print('Google: '+Transcription_google+'\n' + 'sphinx: ' + Transcription_sphinx + '\n' + 'wit: '+ Transcription_wit)
                 Transcript_google.append(Transcription_google)
                 Transcript_sphinx.append(Transcription_sphinx)
