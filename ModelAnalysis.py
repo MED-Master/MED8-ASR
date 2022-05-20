@@ -36,6 +36,6 @@ print('Google distance',stats.shapiro(Googledf['distance']))
 print('Sphinx distance',stats.shapiro(Sphinxdf['distance']))
 print('Wit distance',stats.shapiro(Witdf['distance']))
 
-print('Google - Wit: string',stats.ttest_ind(Googledf['string'], Witdf['string'], equal_var=False))
+print('Google - Wit: string',stats.ttest_ind(Googledf['string'], Witdf['string'], equal_var=True))
 
-print('Google - Wit: distance',stats.ttest_ind(Googledf['distance'], Witdf['distance'], equal_var=False))
+print('Google - Wit: distance',stats.ttest_ind(Googledf['distance'], Witdf['distance'], equal_var=True))
